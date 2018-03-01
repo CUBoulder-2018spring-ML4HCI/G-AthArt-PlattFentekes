@@ -85,8 +85,6 @@ void sendOsc() {
   OscMessage msg = new OscMessage("/wek/inputs");
   
   msg.add((float)outfreq); 
-  msg.add((float)outfreq);
-  msg.add((float)outfreq);
   //added extra outputs to match my wekinator program lol
   println(msg);
   
