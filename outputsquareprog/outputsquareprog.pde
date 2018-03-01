@@ -29,6 +29,7 @@ void setup() {
 void draw() {
   background(myHue, 255, 255);
   squaredrawer();
+  bigsquaredrawer();
   drawtext();
 }
 
@@ -60,11 +61,14 @@ void drawtext() {
 
 void squaredrawer() {
 line(100, 300, 280, 300);
-stroke(126);
+
 line(100, 120, 280, 120);
-stroke(126);
+
 line(100, 120, 100, 300);
-stroke(126);
+
 line(280, 120, 280, 300);
-stroke(126);
+
+}
+
+void bigsquaredrawer() {
 }
