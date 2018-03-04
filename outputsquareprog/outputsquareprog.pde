@@ -10,6 +10,10 @@ NetAddress dest;
 //Parameters of sketch
 float myHue;
 PFont myFont;
+float breathstate;
+int state;
+int secondstart;
+int secondend;
 
 void setup() {
   //Initialize OSC communication
@@ -28,9 +32,25 @@ void setup() {
 
 void draw() {
   background(myHue, 255, 255);
-  squaredrawer();
-  bigsquaredrawer();
   drawtext();
+  if (breathstate==1){
+    secondstart=second();
+    breathin();
+  }
+  else if (breathstate==2){
+    secondstart=second();
+    breathout();
+  }
+  else if (breathstate==3 && state==1){
+    secondstart=second();
+    pause1();
+  }
+  else if (breathstate==3 && state==2){
+    secondstart=second();
+    pause2();
+  }
+  
+  
 }
 
 //This is called automatically when OSC message is received
@@ -38,6 +58,7 @@ void oscEvent(OscMessage theOscMessage) {
  if (theOscMessage.checkAddrPattern("/wek/outputs")==true) {
      if(theOscMessage.checkTypetag("f")) { // looking for 1 control value
         float receivedHue = theOscMessage.get(0).floatValue();
+        breathstate= receivedHue;
         println(receivedHue);
      } else {
         println("Error: unexpected OSC message received by Processing: ");
@@ -45,6 +66,9 @@ void oscEvent(OscMessage theOscMessage) {
       }
  }
 }
+
+
+
 
 
 
@@ -56,12 +80,17 @@ void drawtext() {
     fill(0, 0, 255);
     text("Listening for /wek/outputs on port 12000", 10, 40);
     text("Square Breathing Trainer", 10, 10);
+    text("Breathe in", 155, 95);
+    text("Breathe out", 155, 310);
+    text("Pause", 290, 202);
+    text("Pause", 50, 202);
     
 }
 
 void squaredrawer() {
 line(100, 300, 280, 300);
-
+strokeWeight(20);
+stroke(#436723);
 line(100, 120, 280, 120);
 
 line(100, 120, 100, 300);
@@ -70,5 +99,40 @@ line(280, 120, 280, 300);
 
 }
 
-void bigsquaredrawer() {
+void breathin() {
+line(100, 120, 280, 120);
+line(100, 120, 100, 300);
+line(280, 120, 280, 300);
+strokeWeight(5);
+stroke(#436723);
+line(100, 300, 280, 300);
+state=1;
+}
+
+void pause1() {
+line(100, 300, 280, 300);
+line(100, 120, 100, 300);
+line(280, 120, 280, 300);
+strokeWeight(5);
+stroke(#436723);
+line(100, 120, 280, 120);
+}
+
+void breathout() {
+line(100, 300, 280, 300);
+line(100, 120, 280, 120);
+line(280, 120, 280, 300);
+strokeWeight(5);
+stroke(#436723);
+line(100, 120, 100, 300);
+state=2;
+}
+
+void pause2() {
+line(100, 300, 280, 300);
+line(100, 120, 280, 120);
+line(100, 120, 100, 300);
+strokeWeight(5);
+stroke(#436723);
+line(280, 120, 280, 300);
 }
