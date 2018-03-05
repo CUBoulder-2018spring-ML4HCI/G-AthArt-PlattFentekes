@@ -11,3 +11,4 @@ For input, we used a microphone. We applied a Fourier Transform on the input aud
 First of all, the detection of in and out breaths was really tricky, this coul probably be improved with a better microphone. Also, its pretty inconvenient to have to hold a microphone close to your mouth for this to work, so if it could be implemented in a more discrete way that would be a lot more user friendly.
 
 ## Demo Video
+ https://youtu.be/ANaytI5UTiY
