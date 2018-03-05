@@ -14,6 +14,8 @@ float breathstate;
 int state;
 int secondstart;
 int secondend;
+int startTime;
+
 
 void setup() {
   //Initialize OSC communication
@@ -28,10 +30,12 @@ void setup() {
   //Initialize appearance
   myHue = 255;
   myFont = createFont("Arial", 14);
+  startTime = millis();
 }
 
 void draw() {
-  background(myHue, 255, 255);
+  
+  background(1,1,1);
   drawtext();
   if (breathstate==1){
     secondstart=second();
@@ -49,9 +53,31 @@ void draw() {
     secondstart=second();
     pause2();
   }
-  
-  
+ int x=0;
+ if (millis() - startTime >= x){
+    breathintext();
+    x=x+4000;
+    } 
+ if (millis() - startTime >= x){
+    pause1text();
+    x=x+4000;
+    } 
+  if (millis() - startTime >= x){
+    breathouttext();
+    x=x+4000;
+    } 
+  if (millis() - startTime >= x){
+    pause2text();
+    x=x+4000;
+    }
+  if (millis() - startTime >= x){
+    breathintext();
+    x=x+4000;
+    startTime = millis();
+    } 
+ 
 }
+
 
 //This is called automatically when OSC message is received
 void oscEvent(OscMessage theOscMessage) {
@@ -67,9 +93,9 @@ void oscEvent(OscMessage theOscMessage) {
  }
 }
 
+void breathing(){
 
-
-
+}
 
 
 //Write instructions to screen.
@@ -79,12 +105,55 @@ void drawtext() {
     textAlign(LEFT, TOP); 
     fill(0, 0, 255);
     text("Listening for /wek/outputs on port 12000", 10, 40);
-    text("Square Breathing Trainer", 10, 10);
-    text("Breathe in", 155, 95);
+    text("Square Breathing Trainer", 10, 10);  
+}
+
+void breathintext(){
+    stroke(0);
+    textFont(myFont);
+    textAlign(LEFT, TOP); 
+    fill(0, 0, 255);
     text("Breathe out", 155, 310);
     text("Pause", 290, 202);
     text("Pause", 50, 202);
-    
+    fill(255, 255, 255);
+    text("Breathe in", 155, 95);
+}
+
+void pause1text(){
+    stroke(0);
+    textFont(myFont);
+    textAlign(LEFT, TOP); 
+    fill(0, 0, 255);
+    text("Breathe out", 155, 310);
+    text("Breathe in", 155, 95);
+    text("Pause", 50, 202);
+    fill(255, 255, 255);
+    text("Pause", 290, 202);   
+}
+
+void breathouttext(){
+    stroke(0);
+    textFont(myFont);
+    textAlign(LEFT, TOP); 
+    fill(0, 0, 255);
+    text("Breathe in", 155, 95);
+    text("Pause", 290, 202); 
+    text("Pause", 50, 202);
+    fill(255, 255, 255);
+    text("Breathe out", 155, 310);
+}
+
+void pause2text(){
+    stroke(0);
+    textFont(myFont);
+    textAlign(LEFT, TOP); 
+    fill(0, 0, 255);
+    text("Breathe in", 155, 95);
+    text("Pause", 290, 202); 
+    text("Breathe out", 155, 310);
+    fill(255, 255, 255);
+    text("Pause", 50, 202);
 }
 
 void squaredrawer() {
@@ -100,35 +169,37 @@ line(280, 120, 280, 300);
 }
 
 void breathin() {
-line(100, 120, 280, 120);
-line(100, 120, 100, 300);
 line(280, 120, 280, 300);
+line(100, 120, 100, 300);
+line(100, 300, 280, 300);
 strokeWeight(5);
 stroke(#436723);
-line(100, 300, 280, 300);
+line(100, 120, 280, 120);
 state=1;
 }
 
-void pause1() {
+void pause2() {
 line(100, 300, 280, 300);
 line(100, 120, 100, 300);
 line(280, 120, 280, 300);
+line(100, 120, 280, 120);
 strokeWeight(5);
 stroke(#436723);
-line(100, 120, 280, 120);
+line(100, 120, 100, 300);
 }
 
 void breathout() {
 line(100, 300, 280, 300);
 line(100, 120, 280, 120);
+line(100, 120, 100, 300);
 line(280, 120, 280, 300);
 strokeWeight(5);
 stroke(#436723);
-line(100, 120, 100, 300);
+line(100, 300, 280, 300);
 state=2;
 }
 
-void pause2() {
+void pause1() {
 line(100, 300, 280, 300);
 line(100, 120, 280, 120);
 line(100, 120, 100, 300);
